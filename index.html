@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">  
+    <link href="css/custom.css" rel="stylesheet"> 
+    <script src="js/jquery.min.js"></script>
+
+</head>
+<body>
+   <center>
+   	  <input class="magrin input" id="input" placeholder="Введите целое число от 10 до 200"></input>
+   	  <br>
+      <a class="btn btn-success magrin" href="#" id="count">Произвести расчет</a>
+      <button class="btn btn-inverse magrin" id="clear">Очистить</button>
+      <br>
+      <p class="answer magrin" id="answer"></p>
+   </center>
+</body>
+<script>
+
+
+
+  $("#clear").on("click", function () {
+  	$("#answer").empty()
+  	$("#input").val('')
+  })
+
+  $("#count").on("click", function () {
+
+  	if ($("#answer").text() != ""){
+  		alert('Необходимо очистить форму')
+  		return;
+  	}
+    
+
+
+    if (($("#input").val() >= 10) && ($("#input").val()<=200) && ($("#input").val().indexOf('.')<0 )){
+    	$tankSize=$("#input").val()
+  		      $.ajax({
+              url: "rest_service.php?tankSize="+$tankSize,
+         success: function(result){
+          $array=result
+          
+              $.each($array, function( index,value ) {
+                $("#answer").append('<div>'+value+'</div>')
+                $index=index+1;
+              });
+               $("#answer").append('<br><div><b>Итого, при n='+$tankSize+' наш ответ будет '+$index+'.</b></div>')
+    
+              
+             }
+        });
+  	}else{
+        alert('Необходимо ввести целое число от 10 до 200')
+  	}
+
+  })
+</script>
